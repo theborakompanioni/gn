@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.theborakompanioni</groupId>
-            <artifactId>spring-boot-shiro-orient-ionic-db</artifactId>
+            <artifactId>gn-orient</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -43,7 +43,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.theborakompanioni</groupId>
-            <artifactId>spring-boot-shiro-orient-ionic-auth</artifactId>
+            <artifactId>gn-auth</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
