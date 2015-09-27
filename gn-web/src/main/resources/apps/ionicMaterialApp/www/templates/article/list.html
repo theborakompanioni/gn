@@ -1,0 +1,44 @@
+<ion-view view-title="Good News">
+
+    <ion-nav-title>
+        <img class="title-image pull-left" src="img/logo.png"/> Good News - {{sortMode | uppercase}}
+    </ion-nav-title>
+    <ion-content ng-class="{expanded:$scope.isExpanded}" class="main-background">
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                data-spinner="crescent"
+                data-on-refresh="doRefresh()">
+        </ion-refresher>
+
+        <ion-item class="card-item" data-ng-if="data && articles.length === 0">
+            <div class="card calm-900 calm-100-bg">
+                No items to show.
+            </div>
+        </ion-item>
+        <div class="animate-fade-slide-in-right">
+            <div data-gn-article-infinite-list
+                 data-articles="articles"
+                 data-more-data-can-be-loaded="moreDataCanBeLoaded()"
+                 data-on-infinite="onInfiniteCallback()"></div>
+        </div>
+    </ion-content>
+    <ion-footer-bar align-title="left" class="bar-assertive">
+        <div class="tabs tabs-positive tabs-icon-top">
+            <a ui-sref="app.articles" class="tab-item">
+                <i class="icon ion-calendar"></i> Newest
+            </a>
+            <a ui-sref="app.articlestrending" class="tab-item">
+                <i class="icon ion-arrow-graph-up-right"></i> Trending
+            </a>
+            <a ui-sref="app.articlespopular" class="tab-item">
+                <i class="icon ion-heart"></i> Popular
+            </a>
+            <!--a ui-sref="app.articlesfavourites" class="tab-item">
+                <i class="icon ion-ios-star"></i> Favourites
+            </a-->
+            <a ui-sref="app.articlecreate" class="tab-item">
+                <i class="icon ion-compose"></i> Create
+            </a>
+        </div>
+    </ion-footer-bar>
+</ion-view>

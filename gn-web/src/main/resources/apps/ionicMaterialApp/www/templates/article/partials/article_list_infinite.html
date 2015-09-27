@@ -1,0 +1,53 @@
+<ion-list>
+    <ion-item class="item-text-wrap" data-ng-repeat="article in articles track by $index">
+        <div class="card padding">
+            <div class="pull-right" data-gn-article-heart-btn data-article="article"></div>
+            <div class="pull-right" data-gn-article-star-btn data-article="article"></div>
+            <!--span class="avatar"
+                  style="background-image: url('http://lorempixel.com/115/115/animals');"></span-->
+            <h2>
+                <a target="_blank"
+                   data-ng-href="{{article._links.view.href}}"
+                   class="gn-article-title">
+                    {{ article.resource.title | limitTo:100}}
+                </a>
+            </h2>
+
+            <p>
+                <a class="gn-article-link" target="_blank"
+                   data-ng-href="{{article._links.view.href}}">
+                    {{article.resource.url | limitTo:100 }}
+                </a>
+            </p>
+
+            <p> {{ article.resource.description }}
+            </p>
+
+            <p data-ng-show="!article.resource.fetched" class="text-muted">
+                In progress..
+            </p>
+
+            <div class="card-footer gn-clearfix">
+                <div class="pull-left">
+                    <i class="icon ion-clock"></i>
+                    {{ article.resource.createdAt * 1000 | date }}
+                    created by
+                    {{ article.resource.createdBy }}
+                </div>
+                <div class="pull-right">
+                    <i class="icon ion-chatbubbles positive"></i> 6
+                    <i class="icon ion-heart assertive"></i> {{ article.resource.hearts | number:0 }}
+                </div>
+            </div>
+            <div class="card-footer gn-clearfix">
+                <div data-gn-article-delete-btn data-article="article"></div>
+                <div data-gn-article-verify-btn data-article="article"></div>
+            </div>
+        </div>
+    </ion-item>
+    <ion-infinite-scroll
+            data-spinner="crescent"
+            ng-if="moreDataCanBeLoaded()"
+            on-infinite="onInfinite()">
+    </ion-infinite-scroll>
+</ion-list>
