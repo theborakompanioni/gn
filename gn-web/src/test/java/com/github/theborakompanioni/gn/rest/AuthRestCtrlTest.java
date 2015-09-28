@@ -2,11 +2,11 @@ package com.github.theborakompanioni.gn.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.theborakompanioni.gn.Application;
-import com.github.theborakompanioni.gn.OrientDbConfiguration;
+import com.github.theborakompanioni.gn.ElasticsearchConfguration;
 import com.github.theborakompanioni.gn.ShiroConfiguration;
-import com.github.theborakompanioni.gn.repository.PermissionRepository;
-import com.github.theborakompanioni.gn.repository.RoleRepository;
-import com.github.theborakompanioni.gn.repository.UserRepository;
+import gn.elastic.repository.PermissionElasticRepository;
+import gn.elastic.repository.RoleElasticRepository;
+import gn.elastic.repository.UserElasticRepository;
 import model.Permission;
 import model.Role;
 import model.User;
@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes
-        = {Application.class, OrientDbConfiguration.class, ShiroConfiguration.class})
+        = {Application.class, ElasticsearchConfguration.class, ShiroConfiguration.class})
 @WebIntegrationTest("server.port:0")
 public class AuthRestCtrlTest extends AbstractJUnit4SpringContextTests {
     private final String USER_NAME = "John Doe";
@@ -47,13 +47,13 @@ public class AuthRestCtrlTest extends AbstractJUnit4SpringContextTests {
     private AbstractShiroFilter shiroFilter;
 
     @Autowired
-    private UserRepository userRepo;
+    private UserElasticRepository userRepo;
 
     @Autowired
-    private RoleRepository roleRepo;
+    private RoleElasticRepository roleRepo;
 
     @Autowired
-    private PermissionRepository permissionRepo;
+    private PermissionElasticRepository permissionRepo;
 
     @Autowired
     private WebApplicationContext wac;
@@ -103,7 +103,7 @@ public class AuthRestCtrlTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void test_authenticate_success() throws Exception {
-        final User admin = userRepo.findByEmail(USER_EMAIL);
+        final User admin = userRepo.findByEmail_(USER_EMAIL).get();
 
         final String json = new ObjectMapper().writeValueAsString(
                 new UsernamePasswordToken(admin.getEmail(), USER_PWD));

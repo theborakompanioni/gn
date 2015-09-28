@@ -18,7 +18,6 @@
 
     <modules>
         <module>gn-auth</module>
-        <module>gn-orient</module>
         <module>gn-web</module>
         <module>gn-redis</module>
         <module>gn-fetch</module>

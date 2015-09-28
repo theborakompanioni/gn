@@ -64,7 +64,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void deleteAll() {
-        articleRepo.deleteAll();
+        //articleRepo.deleteAll(); <-- timeout expection - this is so f*cking slow..
+        articleRepo.delete(articleRepo.findAll());
     }
 
     @Override

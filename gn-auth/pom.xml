@@ -17,7 +17,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.theborakompanioni</groupId>
-            <artifactId>gn-orient</artifactId>
+            <artifactId>gn-elasticsearch</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

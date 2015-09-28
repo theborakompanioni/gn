@@ -2,6 +2,7 @@ package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -9,6 +10,7 @@ import javax.persistence.Version;
 import java.util.ArrayList;
 import java.util.List;
 
+@Document(indexName = "role")
 @JsonIgnoreProperties(value = {"handler"})
 public class Role {
 

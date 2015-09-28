@@ -1,9 +1,9 @@
 package com.github.theborakompanioni.gn.shiro;
 
+import gn.elastic.repository.UserElasticRepository;
 import model.Permission;
 import model.Role;
 import model.User;
-import com.github.theborakompanioni.gn.repository.UserRepository;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Shiro authentication & authorization realm that relies on OrientDB as
- * datastore.
+ * Shiro authentication & authorization realm that relies on
+ * ElasticSearch as datastore.
  */
-public class OrientDbRealm extends AuthorizingRealm {
+public class ElasticsearchRealm extends AuthorizingRealm {
 
-    private UserRepository userRepository;
+    private UserElasticRepository userRepository;
 
-    public OrientDbRealm(UserRepository userRepository) {
+    public ElasticsearchRealm(UserElasticRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -36,10 +36,9 @@ public class OrientDbRealm extends AuthorizingRealm {
         if (email == null) {
             throw new UnknownAccountException("Email not provided");
         }
-        final User user = userRepository.findByEmailAndActive(email, true);
-        if (user == null) {
-            throw new UnknownAccountException("Account does not exist");
-        }
+        final User user = userRepository.findByEmailAndActive_(email, true)
+                .orElseThrow(() -> new UnknownAccountException("Account does not exist"));
+
         return new SimpleAuthenticationInfo(email, user.getPassword().toCharArray(),
                 ByteSource.Util.bytes(email), getName());
     }
@@ -49,10 +48,8 @@ public class OrientDbRealm extends AuthorizingRealm {
             final PrincipalCollection principals) {
         // retrieve role names and permission names
         final String email = (String) principals.getPrimaryPrincipal();
-        final User user = userRepository.findByEmailAndActive(email, true);
-        if (user == null) {
-            throw new UnknownAccountException("Account does not exist");
-        }
+        final User user = userRepository.findByEmailAndActive_(email, true)
+                .orElseThrow(() -> new UnknownAccountException("Account does not exist"));
 
         final Set<String> roleNames = getRoleNames(user);
         final Set<String> permissionNames = getPermissionNames(user);

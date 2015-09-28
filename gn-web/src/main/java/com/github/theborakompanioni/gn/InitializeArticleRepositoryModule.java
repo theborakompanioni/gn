@@ -28,10 +28,7 @@ public class InitializeArticleRepositoryModule {
     @Bean
     public InitializingBean initializeArticleRepository(SecurityManager securityManager, ArticleService articleService) {
         return () -> {
-            //articleService.deleteAll();
-            if (articleService.findAll(null).getContent().size() > 0) {
-                return;
-            }
+            articleService.deleteAll();
 
             try {
                 SecurityUtils.getSecurityManager();

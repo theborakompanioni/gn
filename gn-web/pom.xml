@@ -28,11 +28,6 @@
         </dependency>
         <dependency>
             <groupId>com.github.theborakompanioni</groupId>
-            <artifactId>gn-orient</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.theborakompanioni</groupId>
             <artifactId>gn-redis</artifactId>
             <version>${project.version}</version>
         </dependency>

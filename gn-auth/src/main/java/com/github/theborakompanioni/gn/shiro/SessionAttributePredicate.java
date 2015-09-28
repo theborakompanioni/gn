@@ -1,17 +1,15 @@
 package com.github.theborakompanioni.gn.shiro;
 
 import com.hazelcast.query.Predicate;
+import org.apache.shiro.session.Session;
 
 import java.io.Serializable;
 import java.util.Map;
 
-import org.apache.shiro.session.Session;
-
 /**
  * Hazelcast query predicate for Shiro session attributes.
  */
-public class SessionAttributePredicate<T> implements
-        Predicate<Serializable, Session> {
+public class SessionAttributePredicate<T> implements Predicate<Serializable, Session> {
 
     private final String attributeName;
     private final T attributeValue;
@@ -30,6 +28,7 @@ public class SessionAttributePredicate<T> implements
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean apply(Map.Entry<Serializable, Session> sessionEntry) {
         final T attribute = (T) sessionEntry.getValue().getAttribute(attributeName);
         return attribute.equals(attributeValue);

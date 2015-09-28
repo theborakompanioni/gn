@@ -1,8 +1,8 @@
 package com.github.theborakompanioni.gn;
 
-import com.github.theborakompanioni.gn.repository.UserRepository;
+import com.github.theborakompanioni.gn.shiro.ElasticsearchRealm;
 import com.github.theborakompanioni.gn.shiro.HazelcastSessionDao;
-import com.github.theborakompanioni.gn.shiro.OrientDbRealm;
+import gn.elastic.repository.UserElasticRepository;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.authc.credential.PasswordMatcher;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
@@ -29,7 +29,7 @@ public class ShiroConfiguration {
     }
 
     @Bean(name = "securityManager")
-    public DefaultWebSecurityManager securityManager(OrientDbRealm realm) {
+    public DefaultWebSecurityManager securityManager(ElasticsearchRealm realm) {
         final DefaultWebSecurityManager securityManager
                 = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
@@ -53,8 +53,8 @@ public class ShiroConfiguration {
 
     @Bean(name = "realm")
     @DependsOn("lifecycleBeanPostProcessor")
-    public OrientDbRealm realm(UserRepository userRepository) {
-        final OrientDbRealm realm = new OrientDbRealm(userRepository);
+    public ElasticsearchRealm realm(UserElasticRepository userRepository) {
+        final ElasticsearchRealm realm = new ElasticsearchRealm(userRepository);
         realm.setCacheManager(new MemoryConstrainedCacheManager());
         realm.setCredentialsMatcher(credentialsMatcher());
         return realm;

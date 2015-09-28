@@ -1,16 +1,15 @@
 package com.github.theborakompanioni.gn.rest;
 
-import com.github.theborakompanioni.gn.repository.UserRepository;
+import gn.elastic.repository.UserElasticRepository;
 import model.User;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -21,12 +20,12 @@ public class UserRestCtrl {
             getLogger(UserRestCtrl.class);
 
     @Autowired
-    private UserRepository userRepo;
+    private UserElasticRepository userRepo;
 
     @RequestMapping(method = GET)
     @RequiresAuthentication
     @RequiresRoles("administrator")
-    public List<User> getAll() {
-        return userRepo.findAll();
+    public ResponseEntity<Iterable<User>> findAll() {
+        return ResponseEntity.ok(userRepo.findAll());
     }
 }

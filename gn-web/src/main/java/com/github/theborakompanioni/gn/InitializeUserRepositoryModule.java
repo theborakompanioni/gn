@@ -1,12 +1,14 @@
 package com.github.theborakompanioni.gn;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Iterables;
+import gn.elastic.repository.PermissionElasticRepository;
+import gn.elastic.repository.RoleElasticRepository;
+import gn.elastic.repository.UserElasticRepository;
 import model.Permission;
 import model.Permissions;
 import model.Role;
 import model.User;
-import com.github.theborakompanioni.gn.repository.PermissionRepository;
-import com.github.theborakompanioni.gn.repository.RoleRepository;
-import com.github.theborakompanioni.gn.repository.UserRepository;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,13 +33,13 @@ public class InitializeUserRepositoryModule {
     private DefaultPasswordService passwordService;
 
     @Autowired
-    UserRepository userRepo;
+    UserElasticRepository userRepo;
 
     @Autowired
-    RoleRepository roleRepo;
+    RoleElasticRepository roleRepo;
 
     @Autowired
-    PermissionRepository permissionRepo;
+    PermissionElasticRepository permissionRepo;
 
     @Bean
     public InitializingBean initializeUserRepository() {
@@ -45,9 +47,9 @@ public class InitializeUserRepositoryModule {
             log.info("Initializing user scenario..");
 
             // clean-up users, roles and permissions
-            userRepo.deleteAll();
-            roleRepo.deleteAll();
-            permissionRepo.deleteAll();
+            userRepo.delete(userRepo.findAll()); // faster than deleteAll()
+            roleRepo.delete(roleRepo.findAll()); // faster than deleteAll()
+            permissionRepo.delete(permissionRepo.findAll()); // faster than deleteAll()
 
             // define permissions
             final Permission p1 = new Permission();
@@ -56,7 +58,7 @@ public class InitializeUserRepositoryModule {
             p2.setName(Permissions.ARTICLE_VERIFY.getName());
 
             List<Permission> permissions = Arrays.asList(p1, p2);
-            //permissions.forEach(permissionRepo::save);
+            permissions.forEach(permissionRepo::save);
 
             // define roles
             final Role roleAdmin = new Role();
@@ -66,7 +68,7 @@ public class InitializeUserRepositoryModule {
             final Role roleUser = new Role();
             roleUser.setName("user");
 
-            //Arrays.asList(roleAdmin, roleUser).forEach(roleRepo::save);
+            Arrays.asList(roleAdmin, roleUser).forEach(roleRepo::save);
 
             // define users
             final User user = new User();
@@ -88,9 +90,6 @@ public class InitializeUserRepositoryModule {
             Arrays.asList(admin, user).forEach(userRepo::save);
 
             log.info("User scenario initiated.");
-            log.info("Users: " + userRepo.findAll().size());
-            log.info("Roles: " + roleRepo.findAll().size());
-            log.info("Permissions: " + permissionRepo.findAll().size());
 
             sanityCheck();
         };
@@ -98,14 +97,14 @@ public class InitializeUserRepositoryModule {
 
 
     private void sanityCheck() throws RuntimeException {
-        final List<User> users = userRepo.findAll();
-        assert users.size() == 2;
+        final Iterable<User> users = userRepo.findAll();
+        Preconditions.checkArgument(Iterables.size(users) == 2);
 
-        final List<Role> roles = roleRepo.findAll();
-        assert roles.size() == 2;
+        final Iterable<Role> roles = roleRepo.findAll();
+        Preconditions.checkArgument(Iterables.size(roles) == 2);
 
-        final List<Permission> permissions = permissionRepo.findAll();
-        assert permissions.size() == 2;
+        final Iterable<Permission> permissions = permissionRepo.findAll();
+        Preconditions.checkArgument(Iterables.size(permissions) == 2);
     }
 
 }

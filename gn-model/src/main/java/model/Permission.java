@@ -2,10 +2,12 @@ package model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+@Document(indexName = "permission")
 @JsonIgnoreProperties(value = {"handler"})
 public class Permission {
 
