@@ -213,7 +213,11 @@ angular.module('starter.controllers', ['ngLodash'])
         ionicMaterialInk.displayEffect();
 
         var fetchArticles = function () {
-            return $http.get($gnApi._links[$scope.sortMode].href);
+            var pageParams = {
+                page: 0,
+                size: 100
+            };
+            return $http.get($gnApi._links[$scope.sortMode].href, {params: pageParams});
         };
 
         $scope.doRefresh = function () {
@@ -304,7 +308,7 @@ angular.module('starter.controllers', ['ngLodash'])
             var pageParams = function () {
                 return {
                     page: pargeNumber,
-                    size: pargeNumber === 0 ? 20 : 100,
+                    size: 100,
                     sort: getSortParam()
                 };
             };

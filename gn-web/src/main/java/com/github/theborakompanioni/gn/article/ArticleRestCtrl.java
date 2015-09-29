@@ -63,8 +63,7 @@ public class ArticleRestCtrl {
 
     @RequestMapping(value = "/newest", method = RequestMethod.GET)
     public ResponseEntity<Page<ArticleResource>> newest(final Pageable pageableOrNull) {
-        final Pageable pageable = Optional.ofNullable(pageableOrNull)
-                .orElse(new PageRequest(1, DEFAULT_PAGE_SIZE));
+        final Pageable pageable = getPageableOrDefault(pageableOrNull);
 
         SearchQuery searchByCreatedAtQuery = new NativeSearchQueryBuilder()
                 .withQuery(matchAllQuery())
@@ -83,8 +82,7 @@ public class ArticleRestCtrl {
 
     @RequestMapping(value = "/popular", method = RequestMethod.GET)
     public ResponseEntity<Page<ArticleResource>> popular(final Pageable pageableOrNull) {
-        final Pageable pageable = Optional.ofNullable(pageableOrNull)
-                .orElse(new PageRequest(1, DEFAULT_PAGE_SIZE));
+        final Pageable pageable = getPageableOrDefault(pageableOrNull);
 
         SearchQuery searchByHeartsQuery = new NativeSearchQueryBuilder()
                 .withQuery(matchAllQuery())
@@ -103,8 +101,7 @@ public class ArticleRestCtrl {
 
     @RequestMapping(value = "/verification", method = RequestMethod.GET)
     public ResponseEntity<Page<ArticleResource>> verification(final Pageable pageableOrNull) {
-        final Pageable pageable = Optional.ofNullable(pageableOrNull)
-                .orElse(new PageRequest(1, DEFAULT_PAGE_SIZE));
+        final Pageable pageable = getPageableOrDefault(pageableOrNull);
 
         SearchQuery searchByVerficationQuery = new NativeSearchQueryBuilder()
                 .withQuery(matchAllQuery())
@@ -118,6 +115,11 @@ public class ArticleRestCtrl {
         final Page<ArticleResource> page = asArticleResourcePage(articlePage);
 
         return ResponseEntity.ok(page);
+    }
+
+    private Pageable getPageableOrDefault(Pageable pageableOrNull) {
+        return Optional.ofNullable(pageableOrNull)
+                .orElse(new PageRequest(0, DEFAULT_PAGE_SIZE));
     }
 
     @RequestMapping(method = RequestMethod.POST)
