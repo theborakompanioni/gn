@@ -19,7 +19,6 @@
     <modules>
         <module>gn-auth</module>
         <module>gn-web</module>
-        <module>gn-redis</module>
         <module>gn-fetch</module>
         <module>gn-elasticsearch</module>
         <module>gn-model</module>
