@@ -10,6 +10,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -21,6 +22,7 @@ import java.util.stream.IntStream;
  */
 @Configuration
 @DependsOn("securityManager")
+@Profile("development")
 public class InitializeArticleRepositoryModule {
     private static final Logger log = LoggerFactory.
             getLogger(InitializeArticleRepositoryModule.class);

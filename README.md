@@ -6,7 +6,7 @@ good news, everyone.
 ## Build
 ```
 mvn clean package
-java -jar gn-web/target/gn-web-<version>.jar 
+java -jar -Dspring.profiles.active=production gn-web/target/gn-web-<version>.jar 
 ```
 
 ## Development
