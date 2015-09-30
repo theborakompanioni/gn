@@ -1,4 +1,14 @@
-spring.data.orient:
-  url: memory:orientdb/test
-  username: admin
-  password: admin
+spring.profiles.active: production
+spring.main.show-banner: true
+
+# LOGGING
+logging.path: ./var/log
+logging.file: application.log
+logging.config: classpath:logback.xml
+logging.level.org.springframework: INFO
+
+# ELASTICSEARCH
+spring.data.elasticsearch.cluster-name: elasticsearch-cluster
+spring.data.elasticsearch.cluster-nodes: # The address(es) of the server node (comma-separated; if not specified starts a client node)
+spring.data.elasticsearch.repositories.enabled: true
+spring.data.elasticsearch.properties.path.data: data/
