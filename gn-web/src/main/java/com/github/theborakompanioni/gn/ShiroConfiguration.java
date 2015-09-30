@@ -1,11 +1,11 @@
 package com.github.theborakompanioni.gn;
 
 import com.github.theborakompanioni.gn.shiro.ElasticsearchRealm;
-import com.github.theborakompanioni.gn.shiro.HazelcastSessionDao;
 import gn.elastic.repository.UserElasticRepository;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.authc.credential.PasswordMatcher;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
+import org.apache.shiro.session.mgt.eis.MemorySessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -48,7 +48,9 @@ public class ShiroConfiguration {
 
     @Bean
     public SessionDAO sessionDao() {
-        return new HazelcastSessionDao();
+        //return new HazelcastSessionDao();
+        //return new GeodeSessionDao(geodeCache);
+        return new MemorySessionDAO();
     }
 
     @Bean(name = "realm")

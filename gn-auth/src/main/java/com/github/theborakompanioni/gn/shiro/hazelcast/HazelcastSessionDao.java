@@ -1,4 +1,4 @@
-package com.github.theborakompanioni.gn.shiro;
+package com.github.theborakompanioni.gn.shiro.hazelcast;
 
 import com.hazelcast.config.*;
 import com.hazelcast.core.Hazelcast;

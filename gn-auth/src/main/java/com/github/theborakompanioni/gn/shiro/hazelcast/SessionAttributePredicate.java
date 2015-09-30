@@ -1,4 +1,4 @@
-package com.github.theborakompanioni.gn.shiro;
+package com.github.theborakompanioni.gn.shiro.hazelcast;
 
 import com.hazelcast.query.Predicate;
 import org.apache.shiro.session.Session;
