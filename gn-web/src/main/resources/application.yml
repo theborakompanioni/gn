@@ -11,7 +11,18 @@ logging.config: classpath:logback.xml
 logging.level.org.springframework: INFO
 
 # ELASTICSEARCH
-spring.data.elasticsearch.cluster-name: elasticsearch-cluster
-spring.data.elasticsearch.cluster-nodes: # The address(es) of the server node (comma-separated; if not specified starts a client node)
-spring.data.elasticsearch.repositories.enabled: true
-spring.data.elasticsearch.properties.path.data: data/
+spring.data.elasticsearch:
+  cluster-name: elasticsearch-cluster
+  cluster-nodes: # The address(es) of the server node (comma-separated; if not specified starts a client node)
+  repositories.enabled: true
+  properties:
+    path.data: data/
+    threadpool:
+      index:
+        type: fixed
+        size: 4
+        queue_size: 1000
+      search:
+        type: fixed
+        size: 8
+        queue_size: 1000
