@@ -22,7 +22,6 @@
         <module>gn-fetch</module>
         <module>gn-elasticsearch</module>
         <module>gn-model</module>
-        <module>gn-geode</module>
     </modules>
 
     <properties>
