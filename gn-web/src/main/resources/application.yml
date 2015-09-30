@@ -1,6 +1,9 @@
 spring.profiles.active: production
 spring.main.show-banner: true
 
+app.name: gn
+app.description: good news for everyone
+
 # LOGGING
 logging.path: ./var/log
 logging.file: application.log

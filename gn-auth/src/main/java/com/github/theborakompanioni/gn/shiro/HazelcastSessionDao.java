@@ -21,6 +21,7 @@ public class HazelcastSessionDao extends AbstractSessionDAO {
 
     private static final Logger log = LoggerFactory
             .getLogger(HazelcastSessionDao.class);
+
     private static final String HC_MAP = "sessions";
     private static final String HC_GROUP_NAME = "hc";
     private static final String HC_GROUP_PASSWORD = "oursessionssecret";
@@ -35,6 +36,12 @@ public class HazelcastSessionDao extends AbstractSessionDAO {
 
         // configure Hazelcast instance
         final Config cfg = new Config();
+        cfg.setProperty("hazelcast.jmx", "true");
+        cfg.setProperty("hazelcast.executor.query.thread.count", "2");
+        cfg.setProperty("hazelcast.executor.event.thread.count", "4");
+        cfg.setProperty("hazelcast.executor.client.thread.count", "8");
+        cfg.setProperty("hazelcast.executor.store.thread.count", "4");
+
         cfg.setInstanceName(hcInstanceName);
         // group configuration
         cfg.setGroupConfig(new GroupConfig(HC_GROUP_NAME, HC_GROUP_PASSWORD));
