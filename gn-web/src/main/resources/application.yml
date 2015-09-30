@@ -16,6 +16,7 @@ spring.data.elasticsearch:
   cluster-nodes: # The address(es) of the server node (comma-separated; if not specified starts a client node)
   repositories.enabled: true
   properties:
+    index.refresh_interval: 60s
     path.data: data/
     threadpool:
       index:
@@ -25,4 +26,8 @@ spring.data.elasticsearch:
       search:
         type: fixed
         size: 8
+        queue_size: 1000
+      refresh:
+        type: fixed
+        size: 2
         queue_size: 1000

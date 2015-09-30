@@ -38,7 +38,7 @@ public class ArticleConfiguration {
     @Bean(destroyMethod = "shutdown")
     public Disruptor<ArticleViewEvent> viewEventDisruptor(ArticleViewEventHandler articleViewEventHandler) {
         // Specify the size of the ring buffer, must be power of 2.
-        int bufferSize = 32768;
+        int bufferSize = 256;
 
         // Construct the Disruptor
         Disruptor<ArticleViewEvent> disruptor = new Disruptor<>(
@@ -68,7 +68,7 @@ public class ArticleConfiguration {
     @Bean(destroyMethod = "shutdown")
     public Disruptor<ArticleHeartEvent> heartEventDisruptor(ArticleHeartEventHandler articleHeartEventHandler) {
         // Specify the size of the ring buffer, must be power of 2.
-        int bufferSize = 4096;
+        int bufferSize = 128;
 
         // Construct the Disruptor
         Disruptor<ArticleHeartEvent> disruptor = new Disruptor<>(
@@ -97,7 +97,7 @@ public class ArticleConfiguration {
     @Bean(destroyMethod = "shutdown")
     public Disruptor<ArticleCreateEvent> createEventDisruptor(ArticleCreateEventHandler articleCreateEventHandler) {
         // Specify the size of the ring buffer, must be power of 2.
-        int bufferSize = 32768;
+        int bufferSize = 64;
 
         // Construct the Disruptor
         Disruptor<ArticleCreateEvent> disruptor = new Disruptor<>(
