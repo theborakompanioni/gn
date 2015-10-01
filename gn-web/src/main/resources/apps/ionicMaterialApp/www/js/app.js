@@ -58,6 +58,20 @@ angular.module('starter', [
                 }]
             }
         })
+            .state('app.about', {
+                url: '/about',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/about.html',
+                        controller: 'AboutCtrl'
+                    },
+                    'fabContent': {
+                        template: '',
+                        controller: function ($scope, $state) {
+                        }
+                    }
+                }
+            })
             .state('app.activity', {
                 url: '/activity',
                 views: {
@@ -245,11 +259,11 @@ angular.module('starter', [
                     'menuContent': {
                         templateUrl: 'templates/article/create.html',
                         controller: 'ArticleCreateCtrl'
-                    }
-                },
-                'fabContent': {
-                    template: '',
-                    controller: function ($scope, $state) {
+                    },
+                    'fabContent': {
+                        template: '',
+                        controller: function ($scope, $state) {
+                        }
                     }
                 }
             })

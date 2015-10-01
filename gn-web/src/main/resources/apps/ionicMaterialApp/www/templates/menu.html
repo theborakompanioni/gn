@@ -22,25 +22,28 @@
         <ion-content class="stable-bg has-expanded-header">
             <ion-list>
                 <ion-item nav-clear menu-close ui-sref="app.articlecreate" data-ng-if="gnApi._links.create">
-                    Create
+                    Random
                 </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.articles" data-ng-if="gnApi._links.newest">
                     Newest
                 </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.articlestrending" data-ng-if="gnApi._links.trending">
-                    Trending
+                    <i class="icon ion-arrow-graph-up-right"></i> Trending
                 </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.articlespopular" data-ng-if="gnApi._links.popular">
                     Popular
+                </ion-item>
+                <ion-item nav-clear menu-close ui-sref="app.articlecreate" data-ng-if="gnApi._links.create">
+                    Create
                 </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.articlesverification" data-ng-if="gnApi._links.verification">
                     Verification
                 </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.login" data-ng-if="gnApi._links.login">
-                    Login
+                    <i class="icon ion-android-contact"></i> Login
                 </ion-item>
                 <ion-item nav-clear menu-close data-ng-if="gnApi._links.logout">
-                    <a data-ng-click="logout()">Logout</a>
+                    <a data-ng-click="logout()"><i class="icon ion-android-walk"></i>  Logout</a>
                 </ion-item>
                 <ion-item nav-clear menu-close ui-sref="app.about">
                     About
