@@ -1,4 +1,4 @@
-package com.github.theborakompanioni.gn;
+package com.github.theborakompanioni.gn.startup;
 
 import com.github.theborakompanioni.gn.article.ArticleService;
 import model.Article;

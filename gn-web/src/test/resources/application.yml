@@ -12,7 +12,7 @@ logging.level.org.springframework: INFO
 
 vishy.initialize.user:
   enabled: true
-  delay-in-seconds: 20
+  delay-in-seconds: -1
 
 # ELASTICSEARCH
 spring.data.elasticsearch:
