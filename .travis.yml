@@ -5,6 +5,32 @@ jdk:
 cache:
   directories:
     - $HOME/.m2
-install: mvn install -DskipTests=true -Dgpg.skip=true -Dmaven.javadoc.skip=true -B -V
+
+env:
+  global:
+    # docker $DOCKER_USERNAME, $DOCKER_PASSWORD
+    - secure: "ps0aMMVoX6SEZOIe3rSCC3lNHl5J7v5luBJcVSHiQLO0B6XBygx0dI30FeTp6cn93TnBHswerlxkxsU1nu+uG2oZF2B8yp9CREge+CbUhDJ4TR7f+Fbw1H8Vsncks8tNSvFtE5jbH8iO+g2tv+TPQaC2+XC/i5OYSJQPXMzB5CBHiSAW35irVJUtmVlnARU4/+4CYFA2CDb7CViHWENcDWdbwF3Vufz2e8v9d1IDTR8EfKs+Gr1acyNQMgAy45+tN5FCb+q2uKv6EC1tpLY2Y7/6Kt+seK9z0+OlDrJpmxjMVrWwhR9/vKfyjqvJM+tyjACEmpuJ6QCXrX3nr6UPmuGgHa3lMg9B7JsQhSlyMSWlfcKDm/WJCN4Jq0T2yss82W5PUwLW30YYERVdhtVLYq3A/0y+LKsRpg/IXz+kEvKZSYh9bYeOXNVCViFVJ5LkfsFASFh7sWYfM7zxehbtBMeA3lb0gi0JA0YQkW+9o//RGezBi9STOyeggYMrAbBZqa0KMyo6ML7TDLYspuRaXJ5aGR2uRu/5+R+HJH5tmolZDU3zj5nqr0sVUlFWsqBBWlPv1ft+34n9hvol5okEQ4Pze1dxffTjpqlZ0GyZa9bap+mAytnMZxiG1B8QvaREj5adZY2IeEkDuc7Pq84XjPAGhsun/zJUv4F/h7GMYuA="
+    - secure: "ULTRuY5ZI4TgHACFUuf/3x30Lx710mu3hFcrHcscNITAsWYBckjfG4XiUjwutGW8xIq945pq3S83k1C1H1Yce2YUiE9JSomnbeUpL8e58NE23U8ztFyFsCYGXtG/ptwOJ0smZK2bBXmxtXQF+kGAtZqw+EDLIGOiLARC4otaQ7TbGT/CJtfsjmWG9qYASdVQO6uOFaBdsSrT2wyuDyitv1l8AarnjLaiibjrHTSKZGOOdxMvdGwiajbwoVP+Sv6DVW7KILVjZoz7CrjT7UCKgk7rk1Ovg4ZGWoLhepVtypFYOTSx5su8EZk4UiGkQ3gmYwVs99+9SJxeVcnUJg/dmJZ0FXnGCHnntOQpYs6nyAQj6bSkK9EDxhWbepe8uhT3QPCjj2pUTUwTZJwT3BmevQUf5vwdAODsJnHG09ldFSj2T7w7FUpusJ+uafF90jIIhiETg2KEyD9p1F7iTCbn1ISqiUg32OSO01DV4A7Ii3C5TpE0uBctSORILioRYwE874CVrtFCjztzfpGn/N8KfygKJTUOo7M93X2DtNIpYleyd5qQlXONr0BKtGh+sCaI0U8WzmcuXXFJOTWB4nEKodofRMfcLnf8yUuJrcHTh7fcbI5ik33Gm2TkIMOiG9EyK86+qZuV4wXDazz5hX2KUDpSn0xKSVHI2GsW6NnJVk8="
+
+services:
+  - docker
+
+install:
+  - mvn install -DskipTests=true -Dgpg.skip=true -Dmaven.javadoc.skip=true -B -V
 before_script:
   - echo $HOME
+  - docker --version
+
+# travis detects and builds maven projects automatically
+## script: mvn verify -Dgpg.skip=true
+
+after_success:
+  - export REPO=$DOCKER_USERNAME/gn
+  - export COMMIT=${TRAVIS_COMMIT::6}
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - echo $REPO:$TAG:$COMMIT
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push $REPO
